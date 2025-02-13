@@ -49,7 +49,8 @@ def webServer(port=13331):
       #Send everything as one send command, do not send one line/item at a time!
 
       # Fill in start
-      outputdata += f"Content-Length: {len(file_data)}\r\n"
+      f.close()
+      outputdata += f"Content-Length: {len(file_data)}\r\n".encode()
       outputdata += b"Connection: close\r\n\r\n"
       connectionSocket.sendall(outputdata + file_data)
       # Fill in end
@@ -60,7 +61,9 @@ def webServer(port=13331):
       # Send response message for invalid request due to the file not being found (404)
       # Remember the format you used in the try: block!
       #Fill in start
-      response_message = b"HTTP/1.1 404 Not Found\r\n\r\n"
+      response_message = b"HTTP/1.1 404 Not Found\r\n"
+      response_message += b"Content-Type: text/html; charset=UTF-8\r\n"
+      response_message += b"Connection: close\r\n\r\n"
       connectionSocket.sendall(response_message)
       #Fill in end
 
